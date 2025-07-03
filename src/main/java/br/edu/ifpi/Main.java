@@ -3,6 +3,8 @@ package br.edu.ifpi;
 import br.edu.ifpi.DAO.CategoriaDAO;
 import br.edu.ifpi.config.HibernateUtil;
 import br.edu.ifpi.entities.Categoria;
+import br.edu.ifpi.entities.ItemPedido;
+import br.edu.ifpi.entities.Pedido;
 import br.edu.ifpi.entities.Produto;
 import org.hibernate.Session;
 
@@ -56,7 +58,7 @@ public class Main {
 
         HibernateUtil.close();*/
 
-        HibernateUtil.getSessionFactory().inTransaction(session -> {
+        /*HibernateUtil.getSessionFactory().inTransaction(session -> {
             session.createSelectionQuery("""
                 SELECT c FROM Categoria c
                 JOIN FETCH c.produtos
@@ -70,7 +72,24 @@ public class Main {
                         }
                         out.println("-- -- -- -- --");
                     });
+        });*/
+
+        HibernateUtil.getSessionFactory().inTransaction(session -> {
+            session.createSelectionQuery(
+        """
+            SELECT p FROM Pedido p
+        
+        """, Pedido.class).getResultList().forEach( pedido -> {
+
+                out.println(":: DATA DO PEDIDO: " + pedido.getDataPedido() + " :: " + pedido.getStatus() + " :: " + pedido.getValor());
+
+                for (ItemPedido itemPedido : pedido.getItens()) {
+                    out.println("> PRODUTO: [" + itemPedido.getProduto().getNome() + "] - qtde. [" + itemPedido.getQuantidade() + "] - [" + "] valor [" + itemPedido.getPrecoUnitario() + "]");
+                }
+
+            });
         });
+
 
     }
 

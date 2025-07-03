@@ -1,7 +1,6 @@
 package br.edu.ifpi.config;
 
-import br.edu.ifpi.entities.Categoria;
-import br.edu.ifpi.entities.Produto;
+import br.edu.ifpi.entities.*;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
@@ -18,6 +17,9 @@ public class HibernateUtil {
             sessionFactory = new MetadataSources(registry)
                     .addAnnotatedClass(Categoria.class)
                     .addAnnotatedClass(Produto.class)
+                    .addAnnotatedClass(Cliente.class)
+                    .addAnnotatedClass(Pedido.class)
+                    .addAnnotatedClass(ItemPedido.class)
                     .buildMetadata()
                     .buildSessionFactory();
         } catch (Exception e) {

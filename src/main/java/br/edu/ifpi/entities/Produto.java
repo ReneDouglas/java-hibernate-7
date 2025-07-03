@@ -3,6 +3,8 @@ package br.edu.ifpi.entities;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "produtos")
@@ -20,6 +22,9 @@ public class Produto {
     @ManyToOne
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;
+
+    @OneToMany(mappedBy = "produto")
+    private Set<ItemPedido> itens = new HashSet<>();
 
     public Produto() {}
     public Produto(String nome, String descricao, BigDecimal preco, Integer estoque) {}
@@ -70,5 +75,13 @@ public class Produto {
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
+    }
+
+    public Set<ItemPedido> getItens() {
+        return itens;
+    }
+
+    public void setItens(Set<ItemPedido> itens) {
+        this.itens = itens;
     }
 }
